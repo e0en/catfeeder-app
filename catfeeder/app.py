@@ -30,6 +30,15 @@ async def feed():
             now = datetime.now(tz=UTC).isoformat()
             async with aiosqlite.connect(secret.DB_FILE) as db:
                 await db.execute("INSERT INTO feeds (time) VALUES (?)", (now,))
+                await db.commit()
             return {}
         else:
             raise HTTPException(status_code=response.status)
+
+
+@app.get("/times")
+async def get_times():
+    async with aiosqlite.connect(secret.DB_FILE) as db:
+        async with db.execute("SELECT time FROM feeds ORDER BY time DESC") as cursor:
+            times = await cursor.fetchall()
+    return {"feed_times": [t[0] for t in times]}
