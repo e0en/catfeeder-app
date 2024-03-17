@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "catfeeder-app"
+version = "0.1.0"
+description = "An web app for my automatic cat feeder"
+authors = ["Yoonseop Kang <e0engoon@gmail.com>"]
+license = "GPLv3"
+readme = "README.md"
+packages = [{ include = "catfeeder" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.0"
+uvicorn = "^0.28.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.3"
+ruff-lsp = "^0.0.53"
+black = "^24.3.0"
+pre-commit = "^3.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

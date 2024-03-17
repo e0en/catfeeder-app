@@ -1,0 +1,3 @@
+poetry.lock
+catfeeder/secret.py
+/**/__pycache__
