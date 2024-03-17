@@ -11,6 +11,7 @@ packages = [{ include = "catfeeder" }]
 python = "^3.12"
 fastapi = "^0.110.0"
 uvicorn = "^0.28.0"
+aiohttp = "^3.9.3"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.3"
