@@ -4,6 +4,8 @@ from datetime import datetime, UTC
 import aiohttp
 import aiosqlite
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from catfeeder import secret
 
@@ -21,6 +23,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/feed")
@@ -42,3 +45,8 @@ async def get_times():
         async with db.execute("SELECT time FROM feeds ORDER BY time DESC") as cursor:
             times = await cursor.fetchall()
     return {"feed_times": [t[0] for t in times]}
+
+
+@app.get("/")
+async def main():
+    return FileResponse("static/index.html")
