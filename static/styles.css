@@ -112,7 +112,7 @@ button {
 }
 
 .footer ul li {
-  display: inline-block;
+  display: block;
   margin: 0;
   padding: 0;
   line-height: 200%;
