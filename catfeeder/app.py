@@ -30,13 +30,23 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def feed():
     async with aiohttp.request("GET", secret.ENDPOINT) as response:
         if response.status == 200:
-            now = datetime.now(tz=UTC).isoformat()
-            async with aiosqlite.connect(secret.DB_FILE) as db:
-                await db.execute("INSERT INTO feeds (time) VALUES (?)", (now,))
-                await db.commit()
+            await write_log()
             return {}
         else:
             raise HTTPException(status_code=response.status)
+
+
+@app.get("/log")
+async def add_log():
+    await write_log()
+    return {}
+
+
+async def write_log():
+    now = datetime.now(tz=UTC).isoformat()
+    async with aiosqlite.connect(secret.DB_FILE) as db:
+        await db.execute("INSERT INTO feeds (time) VALUES (?)", (now,))
+        await db.commit()
 
 
 @app.get("/times")
